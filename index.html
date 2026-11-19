@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#fff7fb" />
+  <meta name="description" content="A private, simple place to keep track of family events, birthdays, appointments and renewals." />
+  <title>STA. MARIA | Family Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.webmanifest" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#home" aria-label="Family Tracker home">
+        <span class="brand-mark" aria-hidden="true">♡</span>
+        <span><strong>STA. MARIA</strong><small>FAMILY TRACKER</small></span>
+      </a>
+      <div class="side-label">FAMILY SPACE</div>
+      <nav class="side-nav" aria-label="Main navigation">
+        <button class="nav-btn active" data-tab="home"><span aria-hidden="true">⌂</span> Dashboard</button>
+        <button class="nav-btn" data-tab="events"><span aria-hidden="true">☷</span> All events</button>
+        <button class="nav-btn" data-tab="calendar"><span aria-hidden="true">▦</span> Calendar</button>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="verse">“Delight yourself in the Lord, and He will give you the desires of your heart.”<span>Psalm 37:4</span></div>
+        <p class="side-privacy">Family reminders, all in one place.</p>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="top-left"><button id="menu-btn" class="icon-button menu-button" aria-label="Menu">☰</button><span id="page-title">Dashboard</span></div>
+        <div class="top-right"><span class="mode-pill" id="mode-pill">Demo mode</span><button class="user-button" id="account-btn" title="Account">⋯</button></div>
+      </header>
+
+      <div class="content" id="app-content">
+        <div class="welcome">
+          <div><p class="eyebrow">OUR FAMILY, OUR MOMENTS</p><h1>Family moments,<br><em>beautifully organized.</em></h1><p class="lead">Birthdays, health checkups, renewals, and little things worth remembering.</p></div>
+          <div class="welcome-decoration" aria-hidden="true">✿<span>♡</span>✿</div>
+        </div>
+
+        <div class="section-head"><div><h2 id="section-title">Your family at a glance</h2><p id="section-subtitle">Everything important, in one warm place.</p></div><button class="primary-btn" id="add-event-btn">＋ Add event</button></div>
+
+        <section id="home-view">
+          <div class="stats-grid">
+            <article class="stat-card"><span class="stat-icon icon-pink">▦</span><span class="stat-label">Upcoming</span><strong id="stat-upcoming">0</strong><small>Events to remember</small></article>
+            <article class="stat-card"><span class="stat-icon icon-peach">♡</span><span class="stat-label">This month</span><strong id="stat-month">0</strong><small>On your calendar</small></article>
+            <article class="stat-card"><span class="stat-icon icon-green">✓</span><span class="stat-label">Completed</span><strong id="stat-completed">0</strong><small>Tasks taken care of</small></article>
+          </div>
+          <div class="columns">
+            <section class="panel"><div class="panel-header"><div><h3>Coming up next</h3><p>Keep track of what's ahead</p></div><button class="text-button" data-tab="events">View all →</button></div><div id="upcoming-list" class="event-list"></div></section>
+            <section class="panel mini-panel"><div class="panel-header"><div><h3>Family calendar</h3><p>What’s happening this month</p></div></div><div id="mini-calendar"></div><div class="quick-note"><span>✿</span><div><strong>Small moments matter.</strong><p>Make time for what matters most.</p></div></div></section>
+          </div>
+        </section>
+
+        <section id="events-view" hidden>
+          <div class="filter-row"><label class="search-input">⌕ <input type="search" id="event-search" placeholder="Search events..." /></label><select id="event-filter" aria-label="Filter events"><option value="all">All categories</option><option value="Birthday">Birthdays</option><option value="Anniversary">Anniversaries</option><option value="Health">Health checkups</option><option value="Renewal">Renewals</option><option value="Other">Others</option></select></div>
+          <div class="panel full-panel"><div id="all-events-list" class="event-list"></div></div>
+        </section>
+
+        <section id="calendar-view" hidden><div class="panel full-panel"><div class="calendar-header"><button id="prev-month" class="icon-button" aria-label="Previous month">‹</button><h3 id="calendar-title"></h3><button id="next-month" class="icon-button" aria-label="Next month">›</button></div><div id="full-calendar"></div><div id="selected-day-list" class="selected-day"></div></div></section>
+        <p id="status-msg" class="status-msg" role="status" aria-live="polite"></p>
+      </div>
+    </main>
+  </div>
+
+  <div class="modal-overlay" id="event-modal" hidden>
+    <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="dialog-title">
+      <div class="dialog-header"><div><p class="eyebrow">FAMILY CALENDAR</p><h2 id="dialog-title">Add an event</h2></div><button class="icon-button close-modal" aria-label="Close">×</button></div>
+      <form id="event-form">
+        <input type="hidden" id="event-id" />
+        <label>Event name <input id="event-title" maxlength="120" placeholder="e.g. Family health checkup" required /></label>
+        <div class="field-grid"><label>Date <input id="event-date" type="date" required /></label><label>Category <select id="event-type"><option>Birthday</option><option>Anniversary</option><option selected>Health</option><option>Renewal</option><option>Other</option></select></label></div>
+        <div class="field-grid"><label>Assigned to <select id="event-person"><option>Whole Family</option><option>Mommy</option><option>Daddy</option></select></label><label>Repeat <select id="event-repeat"><option value="none">One time</option><option value="yearly">Every year</option></select></label></div>
+        <label>Notes (optional) <textarea id="event-notes" rows="3" maxlength="500" placeholder="Add a simple reminder; avoid personal medical details or ID numbers."></textarea></label>
+        <div class="dialog-actions"><button type="button" id="delete-event-btn" class="danger-btn" hidden>Delete</button><span class="flex-spacer"></span><button type="button" class="ghost-btn close-modal">Cancel</button><button class="primary-btn" id="save-event-btn" type="submit">Save event</button></div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="auth-modal" hidden>
+    <div class="dialog auth-dialog" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+      <div class="auth-heart">♡</div><p class="eyebrow" style="text-align:center">OUR LITTLE FAMILY SPACE</p><h2 id="auth-title">Welcome home</h2><p class="auth-subtitle">Sign in to save and sync your family events securely.</p>
+      <div class="auth-error" id="auth-error" role="alert" hidden></div>
+      <form id="login-form"><label>Email <input type="email" id="login-email" required autocomplete="username" placeholder="you@example.com" /></label><label>Password <input type="password" id="login-password" required autocomplete="current-password" placeholder="Your password" /></label><button type="submit" class="primary-btn full" id="login-btn">Sign in</button></form>
+      <div class="auth-divider">or</div><button class="ghost-btn full" id="demo-btn">Try demo with sample events</button>
+      <p class="auth-footnote">Demo data stays in this browser only. The online family database requires Supabase setup.</p>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script defer src="config.js"></script>
+  <script defer src="app.js"></script>
+</body>
+</html>

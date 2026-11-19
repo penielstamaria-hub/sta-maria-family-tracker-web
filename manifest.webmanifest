@@ -1,0 +1,10 @@
+{
+  "name": "STA. MARIA Family Tracker",
+  "short_name": "Family Tracker",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fff7fb",
+  "theme_color": "#fff7fb",
+  "description": "Our family schedules and moments, all in one place."
+}
