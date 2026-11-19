@@ -76,7 +76,8 @@
     state.events=data||[];
   }
   function showAuth(msg=''){
-    $('auth-modal').hidden=false;$('auth-error').hidden=!msg;$('auth-error').textContent=msg;
+    $('auth-modal').hidden=false;$('auth-info').hidden=true;
+    $('auth-error').hidden=!msg;$('auth-error').textContent=msg;
     if (!configured) {$('auth-error').textContent='Supabase is not configured yet. You can try the working demo now, then connect your private database using README.md.';$('auth-error').hidden=false;$('login-btn').disabled=true;}
     else if(!hasSupabase) {$('auth-error').textContent='Supabase JavaScript did not load. Check your internet connection and reload the page.';$('auth-error').hidden=false;$('login-btn').disabled=true;}
   }
@@ -193,9 +194,23 @@
     busy(async()=>{await deleteEvent(id);closeEventForm();announcement('Event deleted.');});
   });
   $('login-form').addEventListener('submit',async(e)=>{e.preventDefault();if(!db)return;
-    $('login-btn').disabled=true;$('auth-error').hidden=true;
-    try {const {data,error}=await db.auth.signInWithPassword({email:$('login-email').value.trim(),password:$('login-password').value});if(error)throw error;await connectSession(data.session);}
-    catch(err){showAuth(err.message);}finally{$('login-btn').disabled=false;}
+    const email=$('login-email').value.trim();
+    $('login-btn').disabled=true;
+    $('auth-error').hidden=true;
+    $('auth-info').hidden=true;
+    try {
+      const {error}=await db.auth.signInWithOtp({
+        email,
+        options: {
+          emailRedirectTo: window.location.origin + window.location.pathname,
+          shouldCreateUser: false
+        }
+      });
+      if(error)throw error;
+      $('auth-info').textContent='Check your email for a sign-in link. Open the newest link once, ideally in this browser. If no email appears, check Spam.';
+      $('auth-info').hidden=false;
+    } catch(err){showAuth(err.message);}
+    finally{$('login-btn').disabled=false;}
   });
   $('demo-btn').addEventListener('click',loadDemo);
   $('account-btn').addEventListener('click',async()=>{

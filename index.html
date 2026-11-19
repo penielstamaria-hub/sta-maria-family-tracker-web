@@ -81,9 +81,10 @@
 
   <div class="modal-overlay" id="auth-modal" hidden>
     <div class="dialog auth-dialog" role="dialog" aria-modal="true" aria-labelledby="auth-title">
-      <div class="auth-heart">♡</div><p class="eyebrow" style="text-align:center">OUR LITTLE FAMILY SPACE</p><h2 id="auth-title">Welcome home</h2><p class="auth-subtitle">Sign in to save and sync your family events securely.</p>
+      <div class="auth-heart">♡</div><p class="eyebrow" style="text-align:center">OUR LITTLE FAMILY SPACE</p><h2 id="auth-title">Welcome home</h2><p class="auth-subtitle">Enter your invited email address. We will send a secure one-time login link — no password needed.</p>
       <div class="auth-error" id="auth-error" role="alert" hidden></div>
-      <form id="login-form"><label>Email <input type="email" id="login-email" required autocomplete="username" placeholder="you@example.com" /></label><label>Password <input type="password" id="login-password" required autocomplete="current-password" placeholder="Your password" /></label><button type="submit" class="primary-btn full" id="login-btn">Sign in</button></form>
+      <p class="auth-footnote" id="auth-info" role="status" aria-live="polite" hidden></p>
+      <form id="login-form"><label>Email <input type="email" id="login-email" required autocomplete="email" placeholder="you@example.com" /></label><button type="submit" class="primary-btn full" id="login-btn">Send login link</button></form>
       <div class="auth-divider">or</div><button class="ghost-btn full" id="demo-btn">Try demo with sample events</button>
       <p class="auth-footnote">Demo data stays in this browser only. The online family database requires Supabase setup.</p>
     </div>
